@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
 # Copyright (C) 2020 Private Internet Access, Inc.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -35,18 +36,18 @@ check_tool curl
 check_tool jq
 
 # Check if terminal allows output, if yes, define colors for output
-if [[ -t 1 ]]; then
-  ncolors=$(tput colors)
-  if [[ -n $ncolors && $ncolors -ge 8 ]]; then
-    red=$(tput setaf 1) # ANSI red
-    green=$(tput setaf 2) # ANSI green
-    nc=$(tput sgr0) # No Color
-  else
+# if [[ -t 1 ]]; then
+#   ncolors=$(tput colors)
+#   if [[ -n $ncolors && $ncolors -ge 8 ]]; then
+#     red=$(tput setaf 1) # ANSI red
+#     green=$(tput setaf 2) # ANSI green
+#     nc=$(tput sgr0) # No Color
+#   else
     red=''
     green=''
     nc='' # No Color
-  fi
-fi
+#   fi
+# fi
 
 root_dir="/etc/s6-overlay/s6-rc.d/svc-openvpn"
 
