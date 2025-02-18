@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/linuxserver/unrar:latest AS unrar
+#FROM ghcr.io/linuxserver/unrar:latest AS unrar
 
 FROM ghcr.io/linuxserver/baseimage-alpine:edge
 
@@ -50,11 +50,18 @@ RUN \
     /root/.cache \
     /tmp/*
 
+# MY CUSTOMIZATIONS
+RUN \
+echo "**** install OpenVPN ****" && \
+apk add --no-cache openvpn && \
+rm -rf /root/.cache && \
+echo "**** done ****"
+
 # add local files
 COPY root/ /
 
 # add unrar
-COPY --from=unrar /usr/bin/unrar-alpine /usr/bin/unrar
+#COPY --from=unrar /usr/bin/unrar-alpine /usr/bin/unrar
 
 # ports and volumes
 EXPOSE 8080 6881 6881/udp
