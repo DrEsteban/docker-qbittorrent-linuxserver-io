@@ -52,10 +52,24 @@ RUN \
 
 # MY CUSTOMIZATIONS
 RUN \
-echo "**** install OpenVPN ****" && \
-apk add --no-cache openvpn && \
+echo "**** install WireGuard ****" && \
+rm -f /usr/sbin/resolvconf && \
+apk add --no-cache \
+  wireguard-tools \
+  iptables \
+  iproute2 \
+  openresolv \
+  curl && \
 rm -rf /root/.cache && \
 echo "**** done ****"
+
+# Install BoringTun (latest release from Cloudflare)
+RUN curl -L -o /usr/local/bin/boringtun \
+    https://github.com/cloudflare/boringtun/releases/latest/download/boringtun-linux-amd64 && \
+    chmod +x /usr/local/bin/boringtun
+
+ENV WG_QUICK_USERSPACE_IMPLEMENTATION=boringtun
+# DONE CUSTOMIZATIONS
 
 # add local files
 COPY root/ /

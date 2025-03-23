@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/linuxserver/unrar:arm64v8-latest AS unrar
+#FROM ghcr.io/linuxserver/unrar:arm64v8-latest AS unrar
 
 FROM ghcr.io/linuxserver/baseimage-alpine:arm64v8-edge
 
@@ -53,8 +53,15 @@ RUN \
 # add local files
 COPY root/ /
 
+# MY CUSTOMIZATIONS
+RUN \
+echo "**** install WireGuard ****" && \
+apk add --no-cache openvpn && \
+rm -rf /root/.cache && \
+echo "**** done ****"
+
 # add unrar
-COPY --from=unrar /usr/bin/unrar-alpine /usr/bin/unrar
+#COPY --from=unrar /usr/bin/unrar-alpine /usr/bin/unrar
 
 # ports and volumes
 EXPOSE 8080 6881 6881/udp
